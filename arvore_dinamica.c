@@ -15,11 +15,14 @@ typedef struct ARVORE{
 
 ARVORE a;
 
+int contador = 0;
+
 void inserirNo(int dado);
 void preOrdem(NO* raiz);
 void emOrdem(NO* raiz);
 void posOrdem(NO* raiz);
 void liberarMemoria(NO* no);
+int procuraNo(NO* raiz, int valor);
 
 int main(){
     setlocale(LC_ALL, "Portuguese");
@@ -37,7 +40,13 @@ int main(){
     emOrdem(a.raiz);
     printf("\n\n");
     posOrdem(a.raiz);
-    printf("\n");
+    printf("\n\n");
+    contador = procuraNo(a.raiz, 12);
+    if(contador == -1){
+        printf("Não foi encontrado o valor no NÓ\n");
+    }else{
+        printf("valor percorrido por NÓs, %d\n", contador);
+    }
     liberarMemoria(a.raiz);//chama a funcão para liberar a memória
 }
 
@@ -80,9 +89,25 @@ void inserirNo(int dado){
                 }
             }
         }
-        
     }
+}
 
+//funcão para encontrar um valor especifico no NÓ
+int procuraNo(NO* raiz, int valor){
+    contador++;
+    if(raiz == NULL){
+        return -1;
+    }
+    if(raiz->dado == valor){
+        return contador;
+    }
+    if(valor < raiz->dado){
+        return procuraNo(raiz->esq, valor);
+    }else if(valor > raiz->dado){
+        return procuraNo(raiz->dir, valor);
+    }
+  
+    return -1;
 }
 
 //funcão para desalocar memória
